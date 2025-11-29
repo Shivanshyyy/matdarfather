@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sky</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Cloud Animation */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+            box-shadow: 0 8px 5px rgba(0,0,0,0.05);
+            animation: float 20s infinite linear;
+            opacity: 0.8;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .cloud::after, .cloud::before {
+            content: '';
+            position: absolute;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .cloud.one { width: 120px; height: 40px; top: 10%; left: -10%; animation-duration: 35s; }
+        .cloud.one::after { width: 40px; height: 40px; top: -20px; left: 20px; }
+        .cloud.one::before { width: 60px; height: 60px; top: -35px; right: 20px; }
+
+        .cloud.two { width: 160px; height: 60px; top: 30%; left: -20%; animation-duration: 45s; animation-delay: 5s; }
+        .cloud.two::after { width: 60px; height: 60px; top: -30px; left: 30px; }
+        .cloud.two::before { width: 80px; height: 80px; top: -50px; right: 30px; }
+
+        .cloud.three { width: 100px; height: 40px; top: 60%; left: -10%; animation-duration: 30s; animation-delay: 2s; }
+        .cloud.three::after { width: 30px; height: 30px; top: -15px; left: 15px; }
+        .cloud.three::before { width: 50px; height: 50px; top: -25px; right: 15px; }
+
+        @keyframes float {
+            0% { transform: translateX(-200px); }
+            100% { transform: translateX(120vw); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+
+        .photo-frame {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            /* Removed cursor pointer */
+        }
+        
+        /* Removed hover scale to keep it calm */
+
+        .breathe-animation {
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        
+        /* Fade in animation for the card */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 relative min-h-screen">
+
+    <!-- Ambient Clouds -->
+    <div class="cloud one"></div>
+    <div class="cloud two"></div>
+    <div class="cloud three"></div>
+
+    <main class="glass-card w-full max-w-md rounded-3xl p-8 relative z-10 text-center animate-fade-in-up">
+        
+        <!-- Header -->
+        <h1 class="text-4xl font-bold text-sky-800 mb-2">Dear Sky</h1>
+        <p class="text-sky-600 mb-8 font-medium">Just a gentle reminder for you.</p>
+
+        <!-- Photo Section (Fixed) -->
+        <div class="relative w-48 h-48 mx-auto mb-8">
+            <div class="photo-frame w-full h-full rounded-full border-4 border-white shadow-lg bg-sky-100 flex items-center justify-center relative z-10">
+                <!-- Tries to load sky.png, falls back to a nice cloud image if sky.png isn't found -->
+                <img id="userPhoto" 
+                     src="sky.png" 
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1595168866266-993d0739c636?q=80&w=400&h=400&fit=crop';" 
+                     alt="Sky" 
+                     class="w-full h-full object-cover rounded-full opacity-90">
+            </div>
+            
+            <!-- Decor elements around photo -->
+            <div class="absolute -top-2 -right-2 text-yellow-400 text-3xl animate-bounce" style="animation-duration: 3s;">✨</div>
+            <div class="absolute bottom-2 -left-2 text-pink-300 text-2xl animate-bounce" style="animation-duration: 4s; animation-delay: 1s;">❤️</div>
+        </div>
+
+        <!-- The Message -->
+        <div class="space-y-6 mb-8">
+            <div class="bg-white/50 p-6 rounded-2xl shadow-sm border border-white/60">
+                <p class="text-2xl font-semibold text-slate-700 leading-relaxed breathe-animation">
+                    "Please get some help<br>and take rest."
+                </p>
+            </div>
+            <p class="text-slate-600 text-sm italic">
+                You carry so much, but you don't have to carry it all alone. <br> The sky is beautiful because it changes and rests too.
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="playMusic()" id="musicBtn" class="py-3 px-4 rounded-xl bg-sky-100 text-sky-700 font-semibold hover:bg-sky-200 transition-colors flex items-center justify-center gap-2 active:scale-95 transform duration-100">
+                <i class="fas fa-music"></i> Calming Sound
+            </button>
+            <button onclick="showAffirmation()" class="py-3 px-4 rounded-xl bg-indigo-100 text-indigo-700 font-semibold hover:bg-indigo-200 transition-colors flex items-center justify-center gap-2 active:scale-95 transform duration-100">
+                <i class="fas fa-heart"></i> Daily Hug
+            </button>
+        </div>
+
+        <div id="affirmationText" class="mt-6 text-sky-700 text-sm font-medium h-0 overflow-hidden transition-all duration-500 opacity-0">
+            You are doing enough. Breathe out.
+        </div>
+
+    </main>
+
+    <!-- Reliable soothing audio -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Music Logic
+        let isPlaying = false;
+        function playMusic() {
+            const audio = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+            
+            if (!isPlaying) {
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        audio.volume = 0.4;
+                        btn.innerHTML = '<i class="fas fa-pause"></i> Pause Sound';
+                        btn.classList.add('bg-sky-200');
+                        isPlaying = true;
+                    }).catch(error => {
+                        console.log("Audio play failed:", error);
+                        btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Try Again';
+                        setTimeout(() => {
+                           btn.innerHTML = '<i class="fas fa-music"></i> Calming Sound'; 
+                        }, 2000);
+                    });
+                }
+            } else {
+                audio.pause();
+                btn.innerHTML = '<i class="fas fa-music"></i> Calming Sound';
+                btn.classList.remove('bg-sky-200');
+                isPlaying = false;
+            }
+        }
+
+        // Affirmation Logic
+        function showAffirmation() {
+            const text = document.getElementById('affirmationText');
+            const messages = [
+                "You are worthy of rest.",
+                "It's okay to not be okay right now.",
+                "Take it one breath at a time.",
+                "Your peace is a priority.",
+                "Sending you strength, Sky.",
+                "The clouds will pass.",
+                "You are loved.",
+                "Be gentle with yourself today."
+            ];
+            
+            if (text.style.opacity === '1') {
+                text.style.opacity = '0';
+                text.style.height = '0';
+                setTimeout(() => {
+                    displayNewMessage(text, messages);
+                }, 500);
+            } else {
+                displayNewMessage(text, messages);
+            }
+        }
+
+        function displayNewMessage(element, messages) {
+            element.innerText = messages[Math.floor(Math.random() * messages.length)];
+            element.style.height = '24px';
+            element.style.opacity = '1';
+            
+            setTimeout(() => {
+                element.style.opacity = '0';
+                setTimeout(() => { element.style.height = '0'; }, 500);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
